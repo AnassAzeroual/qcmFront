@@ -1,0 +1,141 @@
+<div class="row    mt-2">
+</div>
+
+<ng-container *ngIf="!isFormReady"  >
+<label   >Views/Habilitations</label>    <button type="button" class="btn btn-success   ml-3"  (click)="newModel()"  >   <i class="fas fa-plus" ></i> Add </button>
+
+<table class="table table-hover   my-2"       >
+	<thead>
+	<tr>
+		<th scope="col" >Id</th>
+		<th scope="col" >Name</th>
+		<th scope="col" >Actions</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr *ngFor="let view of models?.content; let iv=index"  >
+		<td >
+			{{view.id}}  
+		</td>
+		<td >
+			{{view.name}}  
+		</td>
+		<td >
+			<button type="button" class="btn btn-warning" (click)="loadModel(view)">Edit</button>
+			<button type="button" class="btn btn-danger d-block  d-sm-inline  ml-0 ml-sm-3   mt-2  mt-sm-0" (click)="onRemoveView(view.id)">Delete</button>
+			<button type="button" class="btn btn-info d-block  d-sm-inline  ml-0 ml-sm-3   mt-2  mt-sm-0" (click)="loadSubModels(view)">Edit View Elements</button>
+		</td>
+	</tr>
+	</tbody>
+</table>
+
+
+
+<div class="row justify-content-around   mt-5">
+	<div class="col-auto">
+		<ngb-pagination
+			[page]="models?.number + 1"
+			[pageSize]="models?.size"
+			[collectionSize]="models?.totalElements"
+			[maxSize]="10"
+			(pageChange)="loadModels($event)"
+			>
+		
+		</ngb-pagination>
+	</div>
+</div>
+</ng-container>
+	
+	
+	
+	
+
+<form [formGroup]="editForm" (ngSubmit)="onSubmit()" *ngIf="isFormReady"   >
+	<div class="form-row">
+		<div class="col-12">
+			<button type="submit" class="btn btn-success"  >   <i class="mdi mdi-content-save"></i> Save </button>
+ 		    <button type="button" class="btn btn-warning ml-1" (click)="onCancel()">Cancel</button>
+			<hr />
+		</div>
+	</div>
+	
+	
+	<h4>Edit View</h4>
+	
+	<div class="form-row">
+		<div class="col-12">
+			<div class="form-group">
+				<label for="name">Name</label>
+				<input type="text" id="name" formControlName="name" class="form-control">
+			</div>
+			<div *ngIf="name.invalid &&  submitted" class="alert alert-danger">
+				<div *ngIf="name.errors.required">
+					name is empty. Please enter a name.
+				</div>
+				<div *ngIf="name.errors.maxlength">
+					name cannot be more than 100 characters.
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	 <br />
+      <hr />
+      <h5>Habilitations</h5>
+
+    <table class="table table-hover   my-2"     formArrayName="habilitations"   >
+      <thead>
+        <tr>
+          <th scope="col"  style="width: 50px;">Selection</th>
+          <th scope="col" class="d-none d-md-table-cell">id</th>
+        <th scope="col" class="d-none d-md-table-cell">Label</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of editForm.get('habilitations')['controls']; let ih=index"  [formGroupName]="ih"  >
+        <td class="d-none d-md-table-cell"  >
+          <input  type="checkbox" formControlName="checked"   #cb  >
+        </td>
+        
+        <td class="d-none d-md-table-cell"    [ngClass]="{'table-success': cb.checked}" >
+          <input  type="text"  formControlName="id" class="form-control">
+        </td>
+        
+        <td class="d-none d-md-table-cell"    [ngClass]="{'table-success': cb.checked}" >
+          <input  type="text"  formControlName="label" class="form-control">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+	
+  <br />
+  <hr />
+  <h5>Roles</h5>
+  
+  <table class="table table-hover   my-2"     formArrayName="roles"   >
+    <thead>
+      <tr>
+        <th scope="col"  style="width: 50px;">Selection</th>
+        <th scope="col" class="d-none d-md-table-cell">id</th>
+        <th scope="col" class="d-none d-md-table-cell">Label</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of editForm.get('roles')['controls']; let ir=index"  [formGroupName]="ir"  >
+        <td class="d-none d-md-table-cell"  >
+          <input  type="checkbox" formControlName="checked"   #cb  >
+        </td>
+        
+        <td class="d-none d-md-table-cell"    [ngClass]="{'table-success': cb.checked}" >
+          <input  type="text"  formControlName="id" class="form-control">
+        </td>
+        
+        <td class="d-none d-md-table-cell"    [ngClass]="{'table-success': cb.checked}" >
+          <input  type="text"  formControlName="label" class="form-control">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+	
+</form>
+

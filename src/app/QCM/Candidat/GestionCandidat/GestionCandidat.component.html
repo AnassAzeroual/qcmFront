@@ -1,0 +1,81 @@
+<form [formGroup]="fg" (ngSubmit)="saveCandidat()">
+
+  <div class="card demandcard topcard mb-3">
+
+    <div class="card-header fw-bold">Ajout / Modification Candidat</div>
+    <div class="card-body">
+      <div class="row">
+
+          <div class="col-md-4">
+            <div class="mb-3">
+              <label for="nom" class="form-label">Nom</label>
+
+              <input type="text" class="form-control " placeholder="nom" formControlName="nom">
+            </div>
+          </div>
+
+
+          <div class="col-md-4">
+            <div class="mb-3">
+              <label for="Prenom" class="form-label">Prenom</label>
+              <input type="text" class="form-control " placeholder="prenom" formControlName="prenom">
+            </div>
+          </div>
+
+
+          <div class="col-md-4">
+            <div class="mb-3">
+              <label for="ville" class="form-label">Ville</label>
+              <input type="ville" class="form-control " placeholder="ville" formControlName="ville">
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="mb-3">
+              <label for="mail" class="form-label">Email</label>
+              <input type="email" class="form-control " placeholder="mail" formControlName="mail">
+            </div>
+          </div>
+
+
+
+
+          <div class="col-md-4">
+            <div class="mb-3">
+              <label for="tel" class="form-label">Tel</label>
+              <input type="tel" class="form-control " placeholder="tel" formControlName="tel">
+            </div>
+          </div>
+
+
+          <div class="col-md-4">
+            <div class="mb-3">
+              <label for="adresse" class="form-label">Adresse</label>
+              <input type="text" class="form-control " placeholder="adresse" formControlName="adresse">
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="mb-3">
+              <label for="societe" class="form-label">Societe</label>
+
+              <input type="text" id="iptEditCmd" class="form-control" placeholder="societe" [ngbTypeahead]="search"
+                (selectItem)="selectedSociete($event)" [resultFormatter]="formatter" [inputFormatter]="formatter"
+                appTypeaheadScrollFix formControlName="societe" />
+
+            </div>
+          </div>
+
+
+
+
+
+
+        <div class="modal-footer">
+          <!-- <button type="button" class="btn btn-light" (click)="modal.dismiss('Cross click')">Fermer</button> -->
+          <button class="btn btn-primary" type="submit">Enregistrer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

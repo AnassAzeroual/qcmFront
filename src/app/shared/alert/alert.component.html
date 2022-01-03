@@ -1,0 +1,32 @@
+<!-- <ngb-alert     *ngIf="alert && alert.type === 'DIV'"     [type]="alert.level == 0 ? 'info' : (alert.level == 1 ? 'warning' : 'danger')"   
+						(close)="onClose()"      class="mt-2"   >{{ alert.content }}
+</ngb-alert> -->
+
+<ng-container *ngIf="alert && showToast && alert?.level !== 2" >    <!-- && alert.type === 'TOAST' -->
+  <ngb-toast    class="toast-upper-right text-bold"   [ngClass]="{'text-info': alert.level == 0 ,   'text-warning': alert.level == 1,   'text-danger': alert.level == 2}" 
+           [autohide]="true"  [delay]="5000"   (hide)="onCloseToast()"  >
+				{{ alert.content }}
+	</ngb-toast>
+</ng-container>
+
+
+
+
+
+
+
+
+<ng-template #modalAlert  let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-title">Message</h4>
+      <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p><strong>{{ alert.content }}</strong></p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" ngbAutofocus class="btn btn-danger btn-rounded" (click)="modal.close( 'Ok close' )">Ok</button>
+    </div>
+</ng-template>

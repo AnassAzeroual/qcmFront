@@ -1,0 +1,90 @@
+<div>
+  <!-- start page title -->
+  <div class="row rowline mb-2">
+    <div class="col-12">
+      <div class="page-title-box">
+        <div class="page-title-top w-100 d-flex justify-content-between align-items-center mt-0">
+          <h4 class="page-title">List Qcm</h4>
+          <div class="d-flex flex-wrap col-12 col-xl-9 mb-3 mb-xl-0 justify-content-end ">
+            <!-- <button type="button" class="btn btn-primary me-2" (click)="gotoQcm()"><i class="uil-plus mr-1"></i>
+              Nouveau Qcm</button> -->
+              <!-- <button class="btn btn-dark " type="button" title="Filtrer" (click)="openModalFiltrer(modalFiltrer)">
+                <i class="mdi mdi-filter"></i> </button> -->
+          </div>
+          
+          
+          <!-- <hr /> -->
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- end page title -->
+
+
+  <div class="card demandcard topcard mb-3">
+    <div class="card-header text-bold h5 m-0">Qcm</div>
+    <form [formGroup]="fg">
+  
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="libelle" class="form-label">Libelle</label>
+                <input type="text" class="form-control " placeholder="libelle" formControlName="libelle">
+              </div>
+            </div>
+  
+  
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="timeGlobal" class="form-label">TimeGlobal</label>
+                <input type="text" class="form-control " placeholder="timeGlobal" formControlName="timeGlobal">
+              </div>
+            </div>
+  
+          <div class="modal-footer">
+            <!-- <button type="button" class="btn btn-light" (click)="modal.dismiss('Cross click')">Fermer</button> -->
+            <button type="button" class="btn btn-primary" (click)="submit()">Filtrer</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="card-body py-0">
+      <div>
+
+        <kendo-grid [data]="creancesGrid" [pageSize]="pageSize" [skip]="skip" [pageable]="true"
+          (pageChange)="pageChange($event)" class="page-grid-container" [resizable]="true" [reorderable]="true"
+          [sortable]="{ mode: 'single' }" (selectionChange)="selectedRow($event)">
+          <kendo-grid-column title="Actions" class="text-center" [width]="45">
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+              <button (click)="affecter(dataItem)" kendoButton class="mdi mdi-shield-check-outline"></button>
+
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="libelle" title="libelle" [width]="60">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div> {{dataItem.libelle}} </div>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="timeGlobal" title="timeGlobal" [width]="50">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div> {{dataItem.timeGlobal}} </div>
+            </ng-template>
+          </kendo-grid-column>
+          
+
+        </kendo-grid>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+  

@@ -1,0 +1,58 @@
+@import "index";
+
+html {
+  scroll-behavior: smooth;
+}
+
+thead {
+  font-weight: bold;
+}
+.k-grid-header {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  overflow: hidden;
+  // padding: 0 !important;
+}
+.k-pager-wrap {
+  border-radius: 0 !important;
+}
+
+button + button {
+  margin-left: 5px;
+}
+
+.tag-NONDISPONIBLE {
+  background: #c14713;
+  @extend .tag;
+}
+.tag {
+  font-size: 13px;
+  padding: 2px 5px;
+  margin: 0 4px;
+  width: fit-content;
+  border-radius: 4px;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 992px) {
+  .min_width {
+    overflow-x: scroll;
+    .box_content {
+      width: 890px;
+    }
+  }
+}

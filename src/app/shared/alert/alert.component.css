@@ -1,0 +1,7 @@
+.toast-upper-right {
+    position: fixed;
+    top: 75px;
+    right: 0;
+    margin: .5em;
+    z-index: 1200;
+}

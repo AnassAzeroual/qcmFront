@@ -1,0 +1,10 @@
+// 
+// tooltips.scss
+// 
+.custom-tooltip .tooltip-inner {
+      background-color:$info !important;
+      font-size: 125%;
+}
+.custom-tooltip .tooltip-arrow::before {
+      border-top-color: $info !important;
+}

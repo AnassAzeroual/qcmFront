@@ -1,0 +1,344 @@
+.display-1{
+  // font-size: calc(#{$display1-size} / 1.8) ;
+}
+.display-2{
+  // font-size: calc(#{$display2-size} / 1.8) ;
+}
+.display-3{
+  // font-size: calc(#{$display3-size} / 1.8) ;
+}
+
+.display-4{
+  // font-size: calc(#{$display4-size} / 1.8) ;
+}
+
+@include media-breakpoint-up(lg) { 
+
+
+  .left-homelandingcontdown .left-homelandingcontdown-body p:before {
+    content: "";
+    display: block;
+    position: relative;
+    margin-bottom: 36px;
+    width: 89px;
+    height: 1px;
+    background: #6f7782;
+}
+
+
+  .footer {
+    position: absolute;
+}
+
+
+.left-homelanding {
+    height: 100vh;
+}
+
+.left-homelandingcontup{
+  min-height : 50%;
+  display: grid; place-items: center;
+}
+
+
+.d-lg-grid {
+  display: grid !important;
+}
+
+
+
+.display-1{
+  // font-size: $display1-size;
+}
+.display-2{
+  // font-size: $display2-size;
+}
+.display-3{
+  // font-size: $display3-size;
+}
+.display-4{
+  // font-size: $display4-size;
+}
+
+
+}
+
+
+
+
+ @media (min-width: 468px) {
+
+
+  .pharma-title h5 {
+    font-size: 20px;
+  }
+  .pharma-adresse-cont p {
+    font-size: 14px;
+  }
+ 
+  .pharma-dist{
+    font-size: 20px;
+  }
+
+}
+
+
+
+
+
+
+
+   
+  @media (min-width: 768px) {
+
+
+
+    .postcontainer{
+      width: 680px;
+    }
+    .targetmdi{
+      i {
+        font-size: 21px;
+        transform: translateY(4px) scale(1.3);
+        display: block;
+        color: gainsboro;
+        padding-right: 5px;
+      }
+    }
+
+
+    .logopharma {
+
+      height: 55px;
+      width: 55px;
+  
+  
+    }
+  
+    .card-pharmadetail {
+      .card-title.h4 {
+        font-size: 24px;
+      }
+    }
+    .product-title h1 {
+      font-size: 20px;
+    }
+    .pharma-title h5 {
+      font-size: 20px;
+    }
+    .pharma-adresse-cont p {
+      font-size: 14px;
+    }
+
+
+    .navElsize{
+      font-size: 13px;
+    }
+
+
+    textarea.form-control{
+      height: 195px;
+    }
+
+
+    .green.profile-green{
+      .greenright{
+        right: 00px;
+        height: 200px;
+    }
+
+    .greencenter{
+      left: 50%;
+      transform: translateX(-50%);
+      top: -170px;
+    }
+
+    .greenleft{
+      left: 5%;
+    }
+
+      }
+      
+
+
+
+
+    .drug-content {
+
+      .sidebar {
+        padding: 1rem;
+        
+        ul li a{
+       font-size: 14px;}
+
+      }
+
+   
+       .tabs {
+         .tab-content{
+           // border: 1px solid #EEEEEE;
+          //  padding: $detail-card-padding;
+         
+     
+         }
+       }
+   
+           }
+
+
+
+           .card-body,.body-header{
+
+            padding: 1.25rem 1rem;
+          }
+          
+          
+
+
+
+
+    .pagination {
+        
+    
+    
+    .page-link {
+        padding: .5rem .75rem;
+        min-width: 38px;
+        min-height: 38px;
+ 
+    }
+}
+
+
+    .navbar-brand{
+
+      .img-fluid{
+          width: 250px;
+      }
+    
+    
+    }
+
+    .smlsize{
+      font-size: 1rem;
+    }
+
+    .container {
+      min-width: auto;
+    }
+    .searchform{
+      .form-control-lg{
+        font-size: 1rem;
+        padding: .8rem 1rem;
+        height: calc(2em + 1rem + 2px);
+      }
+      label.btn-radio {
+
+        font-size: 15px;
+    
+            padding: 2px 21px 2px 7px;
+           
+            font-weight: 600;
+          }
+          .search-cont-pos{
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+          
+          }
+          
+    
+    }
+
+    .btn-radio {
+      background-color: transparent;
+    
+      color:#fff;
+      i {
+        font-size: 1em;
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+
+
+    .greenright{
+      right: -200px;
+    }
+    .greenleft{
+      left: -110px;
+    }
+    .masthead .container {
+      padding-top: 6rem;
+      padding-bottom: 6rem;
+    }
+    // .masthead h1 {
+    //   font-size: 3rem;
+    // }
+  }
+  
+
+
+
+
+
+  
+
+  .showcase .showcase-text {
+    padding: 3rem;
+  }
+  
+  .showcase .showcase-img {
+    min-height: 30rem;
+    background-size: cover;
+  }
+  
+  @media (min-width: 768px) {
+    .showcase .showcase-text {
+      padding: 7rem;
+    }
+  }
+  
+
+
+
+
+
+
+
+  @media (min-width: 1200px){
+
+    .navElsize{
+      font-size: 18px;
+    }
+  
+    
+  
+    .nav-tabs {
+  
+      .nav-link{
+       font-size: 14px !important;
+      //  padding: .5rem 1rem;
+       
+      }
+      .nav-link:first-of-type{
+        // padding-left: 1.25rem;
+      }
+     }
+  
+     .drug-content {
+  
+     .sidebar ul li a{
+      font-size: 14px;}
+  
+   
+  
+          }
+          
+  
+  
+  }
+  

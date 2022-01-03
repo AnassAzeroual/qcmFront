@@ -1,0 +1,37 @@
+.questions {
+    overflow-y: auto;
+  
+    .operation {
+      border: 1px solid var(--gray);
+      padding: 1em;
+      border-radius: 2px;
+  
+      > div {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+
+  .red_color {
+    background: #ff6358;
+    color: white;
+  }
+
+  .green_color {
+    background: #37b4009c;
+    color: white;
+  }
+
+  .no_image_heigth{
+    height: 688px;
+  }
+.choix_height_no_image{
+  height: 463px;
+  overflow-y: auto;
+}
+
+.choix_height_image{
+  height: 250px;
+  overflow-y: auto;
+}

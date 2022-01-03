@@ -1,0 +1,240 @@
+<!-- Left Sidebar Start -->
+<div class="leftside-menu {{navClasses}}" (clickOutside)="hideMenu()" [exclude]="'.open-left,.open-left-icon'"
+    [excludeBeforeClick]="true">
+
+    <div class="leftbar-user" *ngIf="includeUserProfile">
+        <a href="javascript: void(0);">
+            <img [src]="loggedInUser.avatar" alt="user-image" height="42" class="rounded-circle shadow-sm">
+            <span class="leftbar-user-name">{{loggedInUser.name}}</span>
+        </a>
+    </div>
+    <!-- LOGO -->
+    <a routerLink="/" class="logo text-center logo-light" *ngIf="!hideLogo">
+        <span class="logo-lg">
+            <img src="assets/images/logo-dark.svg" alt="" height="24">
+        </span>
+        <span class="logo-sm">
+            <img src="assets/images/logo-dark-s.svg" alt="" height="24">
+        </span>
+    </a>
+
+    <!-- LOGO -->
+    <a routerLink="/" class="logo text-center logo-dark" *ngIf="!hideLogo">
+        <span class="logo-lg">
+            <img src="assets/images/logo-dark.svg" alt="" height="16">
+        </span>
+        <span class="logo-sm">
+            <img src="assets/images/logo_sm_dark.png" alt="" height="16">
+        </span>
+    </a>
+
+<div class="d-flex h-100 flex-column justify-content-between">
+    <ngx-simplebar style="max-height: 100%;">
+        <div id="leftside-menu-container">
+            <!-- Sidebar Start-->
+            <ul class="side-nav">
+                <ng-container *ngFor="let menu of menuItems;let i = index">
+                    <li *ngIf="menu.isTitle" class="side-nav-title side-nav-item">
+                        {{menu.label}}
+                    </li>
+
+                    <ng-container *ngIf="!menu.isTitle">
+
+                        <!-- menu item without any child -->
+                        <ng-container *ngIf="!hasSubmenu(menu)">
+                            <ng-container
+                                *ngTemplateOutlet="MenuItem;context:{menu: menu, className: 'side-nav-item', linkClassName: 'side-nav-link side-nav-link-ref'}">
+                            </ng-container>
+                        </ng-container>
+
+                        <!-- menu item with child -->
+                        <ng-container *ngIf="hasSubmenu(menu)">
+                            <ng-container
+                                *ngTemplateOutlet="MenuItemWithChildren;context:{menu: menu, linkClassName: 'side-nav-link', subMenuClassNames: 'side-nav-second-level'}">
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+
+                </ng-container>
+            </ul>
+
+        
+            <!-- Sidebar End -->
+
+            <div class="clearfix"></div>
+        </div>
+
+
+    </ngx-simplebar>
+
+
+   <!-- Help Box -->
+   <!-- <div class="text-white position-absolute text-center" style="bottom: 10vh; left: 50%; transform: translateX(-50%);"> -->
+   <div class="d-grid my-5" style="place-items: center;">
+    <div class="text-white position-absolute text-center">
+      
+        <a href="javascript: void(0);"  data-toggle="modal" (click)="open(formModal)">
+    
+    
+          <svg id="Composant_42_3" data-name="Composant 42 – 3" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+            <g id="Ellipse_13" data-name="Ellipse 13" fill="#fff" stroke="#1bbb9a" stroke-width="2">
+              <circle cx="24" cy="24" r="24" stroke="none"/>
+              <circle cx="24" cy="24" r="23" fill="none"/>
+            </g>
+            <g id="Groupe_431" data-name="Groupe 431" transform="translate(6 6)">
+              <circle id="Ellipse_12" data-name="Ellipse 12" cx="18" cy="18" r="18" transform="translate(0)" fill="#1bbb9a"/>
+              <path id="Tracé_457" data-name="Tracé 457" d="M17.579,11.843a2.816,2.816,0,0,1-.6-.107,8.823,8.823,0,0,1-1.172-.349,1.79,1.79,0,0,0-2.219.895l-.2.412A11.785,11.785,0,0,1,11,10.9a11.785,11.785,0,0,1-1.79-2.389l.412-.188a1.79,1.79,0,0,0,.895-2.219,9.369,9.369,0,0,1-.349-1.181c-.045-.2-.081-.4-.107-.6A2.684,2.684,0,0,0,7.378,2.1H4.685A2.675,2.675,0,0,0,2.027,5.141,17.009,17.009,0,0,0,16.711,19.825a2.292,2.292,0,0,0,.349,0,2.678,2.678,0,0,0,2.684-2.684V14.456a2.684,2.684,0,0,0-2.165-2.613Zm.438,5.369a.9.9,0,0,1-1.029.886,15.355,15.355,0,0,1-8.832-4.331A15.355,15.355,0,0,1,3.79,4.908a.9.9,0,0,1,.895-1.029H7.369a.9.9,0,0,1,.895.7,3.521,3.521,0,0,0,.134.734A9.843,9.843,0,0,0,8.81,6.689l-1.253.591a.933.933,0,0,0-.465,1.181,12.966,12.966,0,0,0,6.264,6.264.933.933,0,0,0,1.181-.465l.564-1.253a11.1,11.1,0,0,0,1.414.412c.233.054.483.1.725.134a.9.9,0,0,1,.7.895ZM12.738,2h-.626a.9.9,0,0,0,.152,1.79h.474a5.369,5.369,0,0,1,5.369,5.369v.474a.9.9,0,0,0,.814.966h.072a.9.9,0,0,0,.895-.814V9.158A7.158,7.158,0,0,0,12.738,2Zm1.79,7.158a.895.895,0,0,0,1.79,0,3.579,3.579,0,0,0-3.579-3.579.895.895,0,0,0,0,1.79A1.79,1.79,0,0,1,14.528,9.158Z" transform="translate(6.214 7.895)" fill="#fff"/>
+            </g>
+          </svg>
+          
+    
+    
+        </a>
+        
+      </div>
+   </div>
+  <!-- end Help Box -->
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+<!-- Left Sidebar End -->
+
+<!-- Reusable Templates -->
+<ng-template #MenuItemWithChildren let-menu="menu" let-linkClassName="linkClassName"
+    let-subMenuClassNames="subMenuClassNames">
+    <li class="side-nav-item" [ngClass]="{'menuitem-active': activeMenuItems.includes(menu.key)}">
+        <a href="javascript: void(0)" class="side-nav-link-ref {{linkClassName}}"
+            (click)="toggleMenuItem(menu,collapse)" [attr.aria-expanded]="!menu.collapsed"
+            [attr.data-menu-key]="menu.key">
+            <i [class]="menu.icon" *ngIf="menu.icon"></i>
+            <!-- <span class="badge bg-{{menu.badge.variant}} float-end" *ngIf="menu.badge">{{menu.badge.text}}</span> -->
+            <span class="badge bg-danger float-end" *ngIf="menu.badge">{{menu.badge.text}}</span>
+            <span> {{ menu.label }}</span>
+            <span class="menu-arrow" *ngIf="!menu.badge"></span>
+        </a>
+
+        <div #collapse="ngbCollapse" [(ngbCollapse)]="menu.collapsed">
+            <ul class="{{subMenuClassNames}}">
+                <ng-container *ngFor="let child of menu.children">
+                    <ng-container *ngIf="hasSubmenu(child)">
+                        <ng-container
+                            *ngTemplateOutlet="MenuItemWithChildren;context:{menu: child, linkClassName: 'side-nav-link-ref', subMenuClassNames: 'side-nav-third-level'}">
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-container *ngIf="!hasSubmenu(child)">
+                        <ng-container
+                            *ngTemplateOutlet="MenuItem;context:{menu: child, className: '', linkClassName: 'side-nav-link-ref'}">
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+            </ul>
+        </div>
+    </li>
+</ng-template>
+
+
+
+<ng-template #formModal let-cf="close" let-df="dismiss">
+    <div class="modal-header p-0">
+        <button type="button" class="btn-close m-3" aria-label="Close" (click)="df('Cross click')" style="position:absolute; top:0; right:0; color:#fff; filter:brightness(10)"></button>
+        <div class="gradientbg p-4 h4 fw-normal" >    
+           <p class="mb-0"> Vous avez une question? </p><br>
+           <p class="mb-0">   N'hésitez pas à nous contacter</p>
+            
+        </div>
+    </div>
+    <div class="modal-body">
+      <!-- <div class="text-center mt-2 mb-4">
+        <a href="index.html" class="text-success">
+          <span><img src="assets/images/logo-dark.png" alt="" height="18"></span>
+        </a>
+      </div> -->
+  
+      <form class="ps-3 pe-3 mt-2" action="#">
+
+        <div class="mb-3">
+            <!-- <label for="username" class="form-label">Name</label> -->
+            <input type="text" id="username" required="" placeholder="Name" class="form-control">
+        </div>
+       
+         
+        <div class="mb-3">
+            <!-- <label for="emailaddress" class="form-label">Email</label> -->
+            <input type="email" id="emailaddress" name="emailaddress" required="" class="form-control"
+                placeholder="Entrez votre adresse e-mail">
+        </div>
+
+        <select class="form-select mb-3">
+            <option selected>Normale</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
+
+        <select class="form-select mb-3">
+            <option selected>Choisissez le service concerné</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
+
+        <div class="mb-3">
+            <!-- <label for="example-textarea" class="form-label">Text area</label> -->
+            <textarea class="form-control" id="example-textarea" placeholder="Écrivez votre message ici" rows="5"></textarea>
+        </div>
+  
+        <div class="mb-3 text-center">
+            <button type="button" class="btn btn-light me-2" (click)="df('Cross click')">Fermer</button>
+            <button type="button" class="btn btn-primary" (click)="df('Cross click')">Envoyer</button>
+        </div> 
+
+          <div class="mb-3">
+                <p class="mb-2">Ou appelez le service au: </p>
+                <div>
+                    <i class="uil-phone text-success me-1 "></i> <span class="me-1">Support: 05 37 77 37 00</span><i class="mdi mdi-information text-success " style="pointer-events: cursor;" ngbTooltip="You see, I show up on click!"
+                    triggers="click:blur"  placement="end"></i>
+                </div>
+               
+           
+          </div>
+
+   
+
+    
+          
+
+      </form>
+    </div>
+  </ng-template>
+
+<ng-template #MenuItem let-menu="menu" let-className="className" let-linkClassName="linkClassName">
+    <li [class]="className" [ngClass]="{'menuitem-active': activeMenuItems.includes(menu.key)}">
+        <ng-container *ngTemplateOutlet="MenuItemLink;context:{menu: menu, className: linkClassName}">
+        </ng-container>
+    </li>
+</ng-template>
+
+<ng-template #MenuItemLink let-menu="menu" let-className="className">
+    <a [routerLink]="menu.link" [class]="className" [ngClass]="{'active': activeMenuItems.includes(menu.key)}"
+        [attr.data-menu-key]="menu.key">
+        <i [class]="menu.icon" *ngIf="menu.icon"></i>
+        <span class="badge bg-{{menu.badge.variant}} rounded-pill float-end"
+            *ngIf="menu.badge">{{menu.badge.text}}</span>
+        <span> {{ menu.label }}</span>
+    </a>
+</ng-template>

@@ -1,0 +1,69 @@
+//
+// Datepicker
+//
+
+.ngb-dp-header{
+    .ngb-dp-arrow-btn{
+        &:focus{
+        box-shadow: none;
+        }
+    }
+}
+.ngb-dp-day{
+  &:focus{
+    outline: none !important;
+  }
+}
+.ngb-dp-day,.ngb-dp-today {
+  .btn-light{
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        font-size: 13px;
+  }
+}
+
+.ngb-footer-button{
+  padding: 8px;
+  text-align: right;
+
+  .btn-sm{
+    font-size: 0.75rem;
+  }
+}
+
+.calendar-widget {
+    ngb-datepicker{
+      width: 100%;
+      height: 100%;
+      padding: 0 20px;
+      padding-bottom: 0px;
+      border:none;
+      .ngb-dp-header{
+        .form-select{
+          height: 2rem;
+        }
+      }
+      .ngb-dp-weekday.small{
+        font-size: 15px;
+      }
+      .ngb-dp-content{
+        margin-top: 5px;
+        .ngb-dp-month{
+          width: 100%;
+          .ngb-dp-week{
+           height: 40px;
+          justify-content: space-between;
+
+          .ngb-dp-day{
+            .btn-light{
+              font-size: 15px;
+            }
+          }
+        }
+       }
+      }
+    }
+
+}
+

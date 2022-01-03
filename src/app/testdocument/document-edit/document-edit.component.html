@@ -1,0 +1,248 @@
+<form [formGroup]="editForm" (ngSubmit)="onSubmit()" *ngIf="isFormReady" autocomplete="off">
+
+    <!-- start page title -->
+    <div class="row rowline mb-2">
+        <div class="page-title-box row">
+            <h4 class="page-title ps-2 col-12 col-xl-3">Modifier Document</h4>
+            <div class="d-flex flex-wrap col-12 col-xl-9 mb-3 mb-xl-0 justify-content-end ">
+                <button type="button" class="btn btn-light me-2" (click)="onCancel()">Quitter</button>
+                <button type="submit" class="btn btn-primary"><i class="mdi mdi-content-save"></i> Enregistrer</button>
+                <!-- <hr /> -->
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+
+    <div class="card demandcard topcard mb-3">
+
+        <div class="card-header fw-bold">Information Générale</div>
+        <div class="card-body">
+            <div class="row">
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="nom" class="form-label">Nom</label>
+                        <input type="text" id="nom" formControlName="nom" class="form-control">
+                    </div>
+                    <div *ngIf="editFormControls.nom.invalid &&  submitted" class="alert alert-danger">
+                        <div *ngIf="editFormControls.nom.errors.required">
+                            nom is required.
+                        </div>
+                        <div *ngIf="editFormControls.nom.errors.maxlength">
+                            nom cannot be more than 100 characters.
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="client" class="form-label">Client (Object)</label>
+                        <div class="input-group picker-input">
+                            <input type="text" id="client" class="form-control bg-white"
+                                [value]="editFormControls.client.value?.raisonSociale" readonly>
+                            <input type="hidden" id="clientHid" formControlName="client" class="form-control">
+                            <div class="picker-icons">
+
+                                <i (click)="openClientModal(modalClient)"
+                                    class="mdi mdi-file-document-outline pointer"></i>
+                                <i (click)="openClientModal(modalClient)" class="mdi mdi-magnify pointer"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="editFormControls.client.invalid &&  submitted" class="alert alert-danger">
+                        <div *ngIf="editFormControls.client.errors.required">
+                            Client is required.
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Type (Object)</label>
+                        <select id="type" name="type" formControlName="type" class="form-control form-select"
+                            [compareWith]="compareFn">
+                            <option [ngValue]="null"></option>
+                            <option [ngValue]="type" *ngFor="let type of listTypes; let it=index">{{type.libelle}}
+                            </option>
+                        </select>
+                    </div>
+                    <div *ngIf="editFormControls.type.invalid &&  submitted" class="alert alert-danger">
+                        <div *ngIf="editFormControls.type.errors.required">
+                            type is empty. Please choose a value.
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="dateCreation" class="form-label">Date Création</label>
+                        <div class="input-group picker-input">
+                            <input type="text" formControlName="dateCreation" class="form-control" id="dateCreation"
+                                ngbDatepicker #dateCreationRef="ngbDatepicker" (click)="dateCreationRef.toggle()"
+                                name="dateCreation" autocomplete="off">
+                            <div class="picker-icons">
+                                <i (click)="dateCreationRef.toggle()" class="mdi mdi-calendar-month pointer"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div *ngIf="editFormControls.dateCreation.invalid &&  submitted" class="alert alert-danger">
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="">Statut (String)</label>
+                        <div class="mb-3 mb-0 mt-1 d-flex flex-wrap justify-content-between" style="max-width: 400px;">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="statut" id="inlineRadio1"
+                                    value="C">
+                                <label class="form-check-label" for="inlineRadio1">Crée</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="statut" id="inlineRadio2"
+                                    value="E">
+                                <label class="form-check-label" for="inlineRadio2">Envoyé</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="statut" id="inlineRadio3"
+                                    value="A">
+                                <label class="form-check-label" for="inlineRadio3">Archivé</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="tags" class="form-label">Tags (string array)</label>
+                        <div class="input-group picker-input" style="height: 40px;">
+                            <select2 id="tags" formControlName="tags" style="width: 100%;" [data]="listeTags"
+                                multiple="true">
+                            </select2>
+                            <div class="picker-icons">
+                                <i class="uil-angle-down" style="font-size: 24px;color: #343a40; opacity: 1;"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="montant" class="form-label">Montant</label>
+                        <input type="text" id="montant" formControlName="montant" class="form-control text-right"
+                            data-toggle="input-mask" mask="separator.2" thousandSeparator=" " data-reverse="true"
+                            appDecimal2Correct />
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="quantite" class="form-label">Quantité</label>
+                        <input type="text" id="quantite" formControlName="quantite" class="form-control text-right"
+                            data-toggle="input-mask" mask="separator.0" thousandSeparator=" " data-reverse="true" />
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="tel" class="form-label">Téléphone</label>
+                        <input type="text" id="tel" formControlName="tel" class="form-control" mask="00 00 00 00 00" />
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+
+                    <!-- Checkboxes-->
+
+
+
+                    <div class="mb-3">
+                        <label for="tel" class="form-label d-block">Inline</label>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" class="form-check-input" formControlName="option1" id="customCheck3">
+                            <label class="form-check-label" for="customCheck3">Option 1</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" class="form-check-input" formControlName="option2" id="customCheck4">
+                            <label class="form-check-label" for="customCheck4">Option 2</label>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="flag" class="form-label">Flag (String)</label>
+                        <select class="form-control form-select" formControlName="flag" id="flag">
+                            <option [ngValue]="null"></option>
+                            <option value="A">LABELVALUE1</option>
+                            <option value="B">LABELVALUE2</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</form>
+
+
+<!-- client -->
+<ng-template #modalClient let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Recherche de client</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" class="form-control " placeholder="Rechercher par raison sociale" name="criteria"
+                        #criteriaClient (keydown.enter)="SearchClient(criteriaClient.value)">
+
+                    <button type="button" (click)="SearchClient(criteriaClient.value)" class="btn btn-primary ml-3">
+                        Rechercher
+                    </button>
+                </div>
+            </div>
+        </form>
+
+
+        <kendo-grid [data]="clientsView" [pageable]="true" [pageSize]="clientsPageSize" [skip]="clientsSkip"
+            [height]="445" (pageChange)="pageClientChange($event)" [selectable]="true" [selectable]="{mode: 'single'}"
+            (selectionChange)="selectClient($event)">
+            <kendo-grid-column [width]="100" field="codeClient" title="Code Client">
+            </kendo-grid-column>
+            <kendo-grid-column [width]="170" field="raisonSociale" title="Raison Sociale">
+            </kendo-grid-column>
+            <kendo-grid-column [width]="160" field="nomPharmacien" title="Nom Pharmacien">
+            </kendo-grid-column>
+            <kendo-grid-column [width]="150" field="localite" title="Localité">
+            </kendo-grid-column>
+            <kendo-grid-column [width]="150" field="ville" title="Ville">
+            </kendo-grid-column>
+
+        </kendo-grid>
+
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.dismiss('Cross click')">Fermer</button>
+        <button type="button" class="btn btn-primary" (click)="chooseClient(modal)"> Sélectionner</button>
+    </div>
+</ng-template>

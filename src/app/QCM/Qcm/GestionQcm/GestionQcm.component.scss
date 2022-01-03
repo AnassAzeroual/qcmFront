@@ -1,0 +1,25 @@
+.questions {
+    overflow-y: auto;
+  
+    .operation {
+      border: 1px solid var(--gray);
+      padding: 1em;
+      border-radius: 2px;
+  
+      > div {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+
+  #top {
+    display: block;
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    z-index: 999;
+   background: transparent;
+    width: 48px;
+    border: none;
+  }

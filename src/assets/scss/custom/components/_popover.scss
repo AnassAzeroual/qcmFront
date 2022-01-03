@@ -1,0 +1,19 @@
+// 
+// popover.scss
+//
+
+.popover-header {
+    margin-top: 0;
+}
+
+.custom-popover{
+    background-color: $info;
+    .popover-arrow{
+        &::after{
+        border-top-color: $info;
+        }   
+    }
+    .popover-body{
+        color: $white !important;
+    }
+}

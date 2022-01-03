@@ -1,0 +1,107 @@
+<div class="row    mt-2">
+</div>
+
+<ng-container *ngIf="!isFormReady"  >
+<label   >Parameters</label>    <button type="button" class="btn btn-success   ml-3"  (click)="newModel()"  >   <i class="fas fa-plus" ></i> Add </button>
+
+<table class="table table-hover   my-2"       >
+	<thead>
+	<tr>
+		<th scope="col">#</th>
+		<th scope="col" >Group</th>
+		<th scope="col" >Key</th>
+		<th scope="col" >Value</th>
+		<th scope="col" >Actions</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr *ngFor="let param of models?.content; let ip=index"  >
+		<th scope="row">{{ models?.size * models?.number  + ip + 1 }}</th>
+		<td >
+			{{param.key.group.label}}  
+		</td>
+		<td >
+			{{param.key.label}}  
+		</td>
+		<td >
+			{{param.value}}  
+		</td>
+		<td >
+			<button type="button" class="btn btn-warning" (click)="loadModel(param)">Edit</button>
+			<button type="button" class="btn btn-danger d-block  d-sm-inline  ml-0 ml-sm-3   mt-2  mt-sm-0" (click)="onRemoveParam(param.id)">Delete</button>
+		</td>
+	</tr>
+	</tbody>
+</table>
+
+
+
+<div class="row justify-content-around   mt-5">
+	<div class="col-auto">
+		<ngb-pagination
+			[page]="models?.number + 1"
+			[pageSize]="models?.size"
+			[collectionSize]="models?.totalElements"
+			[maxSize]="10"
+			(pageChange)="loadModels($event)"
+			>
+		
+		</ngb-pagination>
+	</div>
+</div>
+</ng-container>
+	
+	
+	
+	
+
+<form [formGroup]="editForm" (ngSubmit)="onSubmit()" *ngIf="isFormReady"   >
+	<div class="form-row">
+		<div class="col-12">
+			<button type="submit" class="btn btn-success"  >   <i class="mdi mdi-content-save"></i> Save </button>
+ 		    <button type="button" class="btn btn-warning ml-1" (click)="onCancel()">Cancel</button>
+			<hr />
+		</div>
+	</div>
+	
+	
+	<h4>Edit Parameter</h4>
+	
+	<div class="form-row">
+		<div class="col-12">
+			<div class="form-group">
+				<label for="key">key</label>
+				<input type="text" id="key" formControlName="key" class="form-control"  [ngbTypeahead]="searchKey"   [resultFormatter]="keyFormatter"  [inputFormatter]="keyFormatter" [editable]="false">
+			</div>
+			<div *ngIf="key.invalid &&  submitted" class="alert alert-danger">
+				<div *ngIf="key.errors.required">
+					key is empty/invalid. Please enter a value.
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="form-row">
+		<div class="col-12">
+			<div class="form-group">
+				<label for="value">value</label>
+				<input type="text" id="value" formControlName="value" class="form-control">
+			</div>
+			<div *ngIf="value.invalid &&  submitted" class="alert alert-danger">
+				<div *ngIf="value.errors.required">
+					value is empty. Please enter a value.
+				</div>
+				<div *ngIf="value.errors.maxlength">
+					value cannot be more than 255 characters.
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+</form>
+
+
+
+  

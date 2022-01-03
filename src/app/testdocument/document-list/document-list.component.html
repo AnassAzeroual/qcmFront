@@ -1,0 +1,117 @@
+<!-- start page title -->
+<div class="row rowline mb-2">
+  <div class="page-title-box row">
+    <h4 class="page-title ps-2 col-12 col-xl-3">List Documents</h4>
+    <div class="d-flex flex-wrap col-12 col-xl-9 mb-3 mb-xl-0 justify-content-end ">
+      <button type="button" class="btn btn-primary me-2" (click)="gotoNewDocument()"><i class="uil-plus mr-1"></i>
+        Nouveau Document</button>
+      <button class="btn btn-dark " type="button" title="Filtrer" (click)="openModalFiltrer(modalFiltrer)">
+        <i class="mdi mdi-filter"></i> </button>
+      <!-- <hr /> -->
+    </div>
+  </div>
+</div>
+<!-- end page title -->
+
+
+<div class="card demandcard topcard mb-3">
+  <div class="card-body">
+
+    {{text1 | truncate: 3:true }} --- abcdef<br />
+    {{text1 | truncate: 3:false }} --- abc <br />
+
+    {{text1 | truncate: 100:false }} --- abcdef<br />
+    {{text1 | truncate: 100:true }} --- abcdef<br />
+
+    {{text2 | truncate: 3:true }} --- abcdef<br />
+    {{text2 | truncate: 3:false }} --- abc <br />
+
+    {{text2 | truncate: 16:true }} --- abcdef anass amine <br />
+    {{text2 | truncate: 16:false }} --- abcdef anass ami <br />
+
+    {{text2 | truncate: 100:false }} --- abcdef anass amine youness <br />
+    {{text2 | truncate: 100:true }} --- abcdef anass amine youness <br />
+
+    <kendo-grid [data]="gridData" [pageSize]="pageSize" [skip]="skip" [pageable]="true"
+      (pageChange)="pageChange($event)" scrollable="scrollable" [resizable]="true" [reorderable]="true"
+      [sortable]="{ mode: 'single' }" [sort]="sort" (sortChange)="sortChange($event)">
+
+
+      <kendo-grid-column field="id" title="Id" [width]="30">
+      </kendo-grid-column>
+
+      <kendo-grid-column field="nom" title="Nom" [width]="130">
+      </kendo-grid-column>
+
+      <kendo-grid-column field="dateCreation" title="Date Création" [width]="90">
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+          {{dataItem.dateCreation | date: 'dd/MM/yyyy'}}
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column class="text-center" field="client.raisonSociale" title="Type" [width]="110" [locked]="false">
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+          {{dataItem.client?.raisonSociale}}
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column class="text-center" field="statut" title="Statut" [width]="70" [locked]="false">
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+          {{dataItem.statut === 'C' ? 'Crée' : (dataItem.statut === 'E' ? 'Envoyé' : (dataItem.statut === 'A' ?
+          'Archivé' : '???')) }}
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column class="text-center" field="type" title="Type" [width]="110" [locked]="false">
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+          {{dataItem.type?.libelle}}
+        </ng-template>
+      </kendo-grid-column>
+
+
+      <kendo-grid-column title="Action" [width]="150" [resizable]="false" filter="numeric">
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+          <div class="gridbtn d-flex justify-content-left">
+            <div>
+              <button (click)="gotoEditDocument(dataItem)" class="btn btn-outline-primary px-2 py-1 " title="Modifier">
+                <i class="mdi mdi-square-edit-outline" style="font-size: 18px;"></i>
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+
+
+    </kendo-grid>
+  </div>
+</div>
+
+
+
+
+
+
+
+<ng-template #modalFiltrer let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Recherche de Documents</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    </button>
+  </div>
+
+  <form>
+    <div class="modal-body">
+
+      <div class="form-group">
+        <div class="input-group">
+          <input type="text" class="form-control " placeholder="Critères" name="criteria" #criteriaClient>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.dismiss('Cross click')">Fermer</button>
+      <button type="button" class="btn btn-primary">Filtrer</button>
+    </div>
+  </form>
+</ng-template>

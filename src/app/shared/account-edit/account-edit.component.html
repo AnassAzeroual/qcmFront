@@ -1,0 +1,173 @@
+
+
+
+
+<form [formGroup]="editForm" (ngSubmit)="onSubmit()" *ngIf="isFormReady"   class="my-2" >
+	<div class="form-row">
+		<div class="col-12">
+			<button type="submit" class="btn btn-success"  >   <i class="mdi mdi-content-save"></i> Enregistrer </button>
+ 		    <button type="button" class="btn btn-warning ml-1" (click)="onCancel()">Annuler</button>
+			<hr />
+		</div>
+	</div>
+	
+	
+	<h4>Données utilisateurs</h4>
+	
+	
+	
+	<div class="form-row">
+		<div class="col-12">
+			<div class="form-group">
+				<label for="firstname">Prénom</label>
+				<input type="text" id="firstname" formControlName="firstname" class="form-control">
+			</div>
+			<div *ngIf="firstname.invalid &&  submitted" class="alert alert-danger">
+				<div *ngIf="firstname.errors.maxlength">
+					longueur maximum 40 characters.
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="form-row">
+		<div class="col-12">
+			<div class="form-group">
+				<label for="lastname">Nom</label>
+				<input type="text" id="lastname" formControlName="lastname" class="form-control">
+			</div>
+			<div *ngIf="lastname.invalid &&  submitted" class="alert alert-danger">
+				<div *ngIf="lastname.errors.maxlength">
+					longueur maximum 40 characters.
+				</div>
+			</div>
+		</div>
+	</div>
+	
+			
+	<div class="form-row">
+		<div class="col-md">
+			<div class="form-group">
+				<label for="country">Pays</label>
+				<input type="text" id="country" class="form-control"  formControlName="country"  [ngbTypeahead]="searchCountry"   [resultFormatter]="countryFormatter"  [inputFormatter]="countryFormatter"
+									(selectItem)="chooseCountry($event)"	 [editable]="false"	>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="form-row">	
+		<div class="col-md">
+			<div class="form-group">
+				<label for="city">Ville</label>
+				<input type="text" id="city" formControlName="city" class="form-control"  [ngbTypeahead]="searchCity"   [resultFormatter]="cityFormatter"  [inputFormatter]="cityFormatter" [editable]="false">
+			</div>
+			<div *ngIf="city.invalid &&  submitted" class="alert alert-danger">
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+	<div class="form-row">
+		<div class="col-12">
+			<div class="form-group">
+				<label for="email">Adresse Email</label>
+				<input type="text" id="email" formControlName="email" class="form-control">
+			</div>
+			<div *ngIf="email.invalid &&  submitted" class="alert alert-danger">
+				<div *ngIf="email.errors.required">
+					L'adresse email est obliatoire.
+				</div>
+				<div *ngIf="email.errors.maxlength">
+					longueur maximum 60 characters.
+				</div>
+				<div *ngIf="email.errors.email">
+					Adresse email invalide.
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="form-row">
+		<div class="col-12">
+			<div class="form-group">
+				<label for="username">Nom d'utilisateur</label>
+				<input type="text" id="username" formControlName="username" class="form-control">
+			</div>
+			<div *ngIf="username.invalid &&  submitted" class="alert alert-danger">
+				<div *ngIf="username.errors.required">
+					Le nom d'utilisateur est obliatoire.
+				</div>
+				<div *ngIf="username.errors.maxlength">
+					longueur maximum 60 characters.
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+	
+	
+	<div class="form-row">	
+		<div class="col-md">
+			<div formGroupName="passwordGroupData">
+				<div class="form-row"  *ngIf="!isSignup">
+					<div class="col-12">
+						<div class="form-group">
+							<label for="oldPassword">Ancien Mot de passe</label>
+							<input type="password" id="oldPassword" formControlName="oldPassword" class="form-control">
+						</div>
+						<div *ngIf="passwordGroupData.errors?.noOldPass &&  submitted" class="alert alert-danger">
+							L'ancien mot de passe est obligatoire.
+						</div>
+					</div>
+				</div>
+			
+				<div class="form-row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="newPassword">{{isSignup ? '' : 'Nouveau '}}Mot de passe</label>
+							<input type="password" id="newPassword" formControlName="newPassword" class="form-control">
+						</div>
+						<div *ngIf="passwordGroupData.errors?.noNewPass &&  submitted" class="alert alert-danger">
+							Le mot de passe est obligatoire.
+						</div>
+						<div *ngIf="passwordGroupData.errors?.notSame &&  submitted" class="alert alert-danger">
+							Les mots de passe ne coinçident pas.
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="confirmPass">Confirmation</label>
+							<input type="password" id="confirmPass" formControlName="confirmPass" class="form-control">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+	<div class="form-row"  *ngIf="false">
+		<div class="col-12">
+			<div class="form-group">
+				<label for="logo">logo</label>
+				<input type="text" id="logo" formControlName="logo" class="form-control">
+			</div>
+			<div *ngIf="logo.invalid &&  submitted" class="alert alert-danger">
+			</div>
+		</div>
+	</div>
+	
+	
+</form>
+
+

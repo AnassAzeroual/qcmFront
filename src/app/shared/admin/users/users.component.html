@@ -1,0 +1,376 @@
+<div class="row    mt-2">
+</div>
+
+<ng-container *ngIf="!isFormReady"  >
+<label   >Users</label>    <button type="button" class="btn btn-success   ml-3"  (click)="newModel()"  >   <i class="fas fa-plus" ></i> Add </button>
+
+<table class="table table-hover   my-2"       >
+	<thead>
+	<tr>
+		<th scope="col">#</th>
+		<th scope="col" class="d-none d-md-table-cell">firstname</th>
+		<th scope="col" class="d-none d-md-table-cell">lastname</th>
+		<th scope="col" class="d-none d-md-table-cell">username</th>
+		<th scope="col" >email</th>
+		<th scope="col" >Email Verified</th>
+		<th scope="col" >enabled</th>
+		<th scope="col" >Actions</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr *ngFor="let user of models?.content; let iu=index"  >
+		<th scope="row">{{models?.size * models?.number  + iu + 1 }}</th>
+		<td class="d-none d-md-table-cell">
+			{{user.firstname}}  
+		</td>
+		<td class="d-none d-md-table-cell">
+			{{user.lastname}}  
+		</td>
+		<td class="d-none d-md-table-cell">
+			{{user.username}}  
+		</td>
+		<td >
+			{{user.email}}  
+		</td>
+		<td >
+			<span *ngIf="user.emailVerified === true" class="badge badge-success">Yes</span>  
+      <span *ngIf="user.emailVerified === false" class="badge badge-danger">No</span>  
+		</td>
+		<td >
+			<span *ngIf="user.enabled === true" class="badge badge-success">Yes</span>  
+      <span *ngIf="user.enabled === false" class="badge badge-danger">No</span>  
+		</td>
+		<td >
+			<button type="button" class="btn btn-warning " (click)="loadModel(user)">Edit</button>
+			<button type="button" class="btn btn-danger   d-block  d-lg-inline  ml-0 ml-lg-3   mt-2  mt-lg-0" (click)="onRemoveUser(user.idhash)"    *ngIf="user.enabled">Delete</button>
+			<button type="button" class="btn btn-secondary   d-block  d-lg-inline  ml-0 ml-lg-3   mt-2  mt-lg-0" (click)="onRestoreUser(user.idhash)"    *ngIf="!user.enabled">Restore</button>
+		</td>
+	</tr>
+	</tbody>
+</table>
+
+
+
+<div class="row justify-content-around   mt-5">
+	<div class="col-auto">
+		<ngb-pagination
+			[page]="models?.number + 1"
+			[pageSize]="models?.size"
+			[collectionSize]="models?.totalElements"
+			[maxSize]="10"
+			(pageChange)="loadModels($event)"
+			>
+		
+		</ngb-pagination>
+	</div>
+</div>
+</ng-container>
+	
+	
+	
+	
+
+<form [formGroup]="editForm" (ngSubmit)="onSubmit()" *ngIf="isFormReady"   >
+	<div class="form-row">
+		<div class="col-12">
+			<button type="submit" class="btn btn-success"  >   <i class="mdi mdi-content-save"></i> Save </button>
+ 		    <button type="button" class="btn btn-warning ml-1" (click)="onCancel()">Cancel</button>
+			<hr />
+		</div>
+	</div>
+	
+	
+	<h4>Edit User</h4>
+	<div class="form-row">
+		<div class="col-12">
+			<div class="form-group">
+				<label for="firstname">firstname</label>
+				<input type="text" id="firstname" formControlName="firstname" class="form-control">
+			</div>
+			<div *ngIf="firstname.invalid &&  submitted" class="alert alert-danger">
+				<div *ngIf="firstname.errors.maxlength">
+					firstname cannot be more than 40 characters.
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="form-row">
+		<div class="col-12">
+			<div class="form-group">
+				<label for="lastname">lastname</label>
+				<input type="text" id="lastname" formControlName="lastname" class="form-control">
+			</div>
+			<div *ngIf="lastname.invalid &&  submitted" class="alert alert-danger">
+				<div *ngIf="lastname.errors.maxlength">
+					lastname cannot be more than 40 characters.
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="form-row">
+		<div class="col-12">
+			<div class="form-group">
+				<label for="email">email</label>
+				<input type="text" id="email" formControlName="email" class="form-control">
+			</div>
+			<div *ngIf="email.invalid &&  submitted" class="alert alert-danger">
+				<div *ngIf="email.errors.required">
+					email is empty. Please enter a value.
+				</div>
+				<div *ngIf="email.errors.email">
+					email address not valid.
+				</div>
+				<div *ngIf="email.errors.maxlength">
+					email cannot be more than 60 characters.
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="form-row">
+		<div class="col-12">
+			<div class="form-group">
+				<label for="username">username</label>
+				<input type="text" id="username" formControlName="username" class="form-control">
+			</div>
+			<div *ngIf="username.invalid &&  submitted" class="alert alert-danger">
+				<div *ngIf="username.errors.required">
+					username is empty. Please enter a value.
+				</div>
+				<div *ngIf="username.errors.maxlength">
+					username cannot be more than 60 characters.
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="form-row">
+		<div class="col-md-12">
+			<div class="form-group">
+				<label for="role">role</label>
+				<select id="role" name="role" formControlName="role"  class="form-control"   [compareWith]="compareFn">
+					<option [ngValue]="null"></option>
+					<option [ngValue]="role"  *ngFor="let role of roles; let ir=index" >{{role.label}}</option> 
+				</select>
+			</div>
+			<div *ngIf="role.invalid &&  submitted" class="alert alert-danger">
+				<div *ngIf="role.errors.required">
+					role is empty. Please choose a value.
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	
+	
+	
+	<div class="form-row">	
+		<div class="col-md">
+			<div formGroupName="passwordGroupData">
+			
+				<div class="form-row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="newPassword">New Password</label>
+							<input type="password" id="newPassword" formControlName="newPassword" class="form-control">
+						</div>
+						<div *ngIf="passwordGroupData.errors?.noNewPass &&  submitted" class="alert alert-danger">
+							password is empty. Please enter a value.
+						</div>
+						<div *ngIf="passwordGroupData.errors?.notSame &&  submitted" class="alert alert-danger">
+							The passwords do not match.
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="confirmPass">Password Confirmation</label>
+							<input type="password" id="confirmPass" formControlName="confirmPass" class="form-control">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+	<div class="form-row">
+		<div class="col-12">
+			<div class="form-group">
+				<label for="logo">logo</label>
+				<input type="text" id="logo" formControlName="logo" class="form-control">
+			</div>
+			<div *ngIf="logo.invalid &&  submitted" class="alert alert-danger">
+			</div>
+		</div>
+	</div>
+		
+	
+	<div class="form-row">
+		<div class="col-12">
+			<div class="form-group">
+				<label for="disabledCause">disabledCause</label>
+				<input type="text" id="disabledCause" formControlName="disabledCause" class="form-control">
+			</div>
+			<div *ngIf="disabledCause.invalid &&  submitted" class="alert alert-danger">
+				<div *ngIf="disabledCause.errors.maxlength">
+					disabledCause cannot be more than 100 characters.
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+
+
+
+	
+	
+	<br />
+	<hr />
+	<h5>Other Roles</h5>
+
+	<table class="table table-hover   my-2"     formArrayName="roles"   >
+		<thead>
+		<tr>
+			<th scope="col"  style="width: 50px;">Selection</th>
+			<th scope="col" class="d-none d-md-table-cell">id</th>
+			<th scope="col" class="d-none d-md-table-cell">Label</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr *ngFor="let item of editForm.get('roles')['controls']; let ir=index"  [formGroupName]="ir"  >
+			<td class="d-none d-md-table-cell"  >
+				<input  type="checkbox" formControlName="checked"   #cb  >
+			</td>
+			
+			<td class="d-none d-md-table-cell"    [ngClass]="{'table-success': cb.checked}" >
+				<input  type="text"  formControlName="id" class="form-control">
+			</td>
+			
+			<td class="d-none d-md-table-cell"    [ngClass]="{'table-success': cb.checked}" >
+				<input  type="text"  formControlName="label" class="form-control">
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	
+	
+	
+
+	
+	
+	<br />
+	<hr />
+	<h5>Roles Organisationnels</h5>
+
+	<table class="table table-hover   my-2"     formArrayName="rolesFonctionnels"   >
+		<thead>
+		<tr>
+			<th scope="col"  style="width: 50px;">Selection</th>
+			<th scope="col" class="d-none d-md-table-cell">id</th>
+			<th scope="col" class="d-none d-md-table-cell">Label</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr *ngFor="let item of editForm.get('rolesFonctionnels')['controls']; let ir=index"  [formGroupName]="ir"  >
+			<td class="d-none d-md-table-cell"  >
+				<input  type="checkbox" formControlName="checked"   #cb  >
+			</td>
+			
+			<td class="d-none d-md-table-cell"    [ngClass]="{'table-success': cb.checked}" >
+				<input  type="text"  formControlName="id" class="form-control">
+			</td>
+			
+			<td class="d-none d-md-table-cell"    [ngClass]="{'table-success': cb.checked}" >
+				<input  type="text"  formControlName="label" class="form-control">
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	
+	
+	
+	
+	
+	
+	<br />
+	<hr />
+	<h5>Authorities</h5>
+
+	<table class="table table-hover   my-2"     formArrayName="habilitations"   >
+		<thead>
+		<tr>
+			<th scope="col"  style="width: 50px;">Selection</th>
+			<th scope="col" class="d-none d-md-table-cell">id</th>
+			<th scope="col" class="d-none d-md-table-cell">Label</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr *ngFor="let item of editForm.get('habilitations')['controls']; let ih=index"  [formGroupName]="ih"  >
+			<td class="d-none d-md-table-cell"  >
+				<input  type="checkbox" formControlName="checked"   #cb  >
+			</td>
+			
+			<td class="d-none d-md-table-cell"    [ngClass]="{'table-success': cb.checked}" >
+				<input  type="text"  formControlName="id" class="form-control">
+			</td>
+			
+			<td class="d-none d-md-table-cell"    [ngClass]="{'table-success': cb.checked}" >
+				<input  type="text"  formControlName="label" class="form-control">
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	
+	
+	<br />
+	<hr />
+	<h5>Interdictions</h5>
+
+	<table class="table table-hover   my-2"     formArrayName="prohibitions"   >
+		<thead>
+		<tr>
+			<th scope="col"  style="width: 50px;">Selection</th>
+			<th scope="col" class="d-none d-md-table-cell">id</th>
+			<th scope="col" class="d-none d-md-table-cell">Label</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr *ngFor="let item of editForm.get('prohibitions')['controls']; let ip=index"  [formGroupName]="ip"  >
+			<td class="d-none d-md-table-cell"   >
+				<input  type="checkbox" formControlName="checked"   #cb  >
+			</td>
+			
+			<td class="d-none d-md-table-cell"    [ngClass]="{'table-danger': cb.checked}" >
+				<input  type="text"  formControlName="id" class="form-control">
+			</td>
+			
+			<td class="d-none d-md-table-cell"    [ngClass]="{'table-danger': cb.checked}" >
+				<input  type="text"  formControlName="label" class="form-control">
+			</td>
+		</tr>
+		</tbody>
+	</table>
+
+	
+	
+	
+	
+	
+	
+</form>
+
+
+
+  

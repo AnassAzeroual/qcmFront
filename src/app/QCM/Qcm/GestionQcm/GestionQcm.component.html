@@ -1,0 +1,178 @@
+<form [formGroup]="fg">
+  <div class="card demandcard topcard mb-3">
+    <div class="card-header fw-bold">Ajout / Modification Qcm</div>
+    <div class="card-body">
+      <div class="row">
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label for="libelle" class="form-label">Libelle</label>
+
+            <input type="text" class="form-control" placeholder="libelle" formControlName="libelle" />
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label for="timeGlobal" class="form-label">TimeGlobal (Min)</label>
+            <input [disabled]="true" type="text" class="form-control" placeholder="timeGlobal" formControlName="timeGlobal" />
+          </div>
+        </div>
+
+        <div class="card demandcard topcard mb-3 px-0">
+          <div class="
+              card-header
+              fw-bold
+              d-flex
+              justify-content-between
+              align-items-center
+            ">
+            <span>Questions</span>
+            <!-- <span><button class="btn btn-dark btn-sm" type="button" title="add" (click)="addQuestion()">
+                ADD
+              </button></span> -->
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <!-- <div *ngIf="selectimgBase64" class="image">
+                
+                <i (click)="clearImage()" *ngIf="selectimgBase64" class="fas fa-times float-center text-danger"></i>
+              </div> -->
+
+              <ng-container formArrayName="questions">
+                <div *ngFor="let question of fg['controls'].questions['controls']; let i = index" class="col-6">
+                  <div class="card">
+                    <div class="p-2">
+                      <div class="row" [formGroupName]="i">
+                        <div class="
+                        fw-bold
+                        d-flex
+                        justify-content-between
+                        align-items-center 
+                      ">
+                      <span>Questions N° {{ i+1 }}</span>
+                      <!-- <input  type="text" style="visibility: visible;" formControlName="numero" (input)="setQuestionNumber(i)"> -->
+
+                      <span><button class="btn btn-dark btn-sm" type="button" title="Ajout Choix " (click)="addChoix(i)">
+                        Ajout Choix 
+                        </button></span>
+                    </div>
+
+                      
+                        <div class="col-12">
+                          <div class="mb-1">
+                            <label for="time" class="form-label">Time</label>
+                            <input type="number" class="form-control" placeholder="time" formControlName="time" #time />
+                          </div>
+                        </div>
+
+                        <div class="col-12">
+                          <div class="mb-3">
+                            <label for="textQuestion" class="form-label">
+                              Question</label>
+                            <input type="text" class="form-control" placeholder="la Question"
+                              formControlName="textQuestion" />
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div *ngIf="fg.get('questions').value[i].image" class="mb-3">
+                            <img [src]="fg.get('questions').value[i].image" style="
+                                max-height: 200px;
+                                width: 100%;
+                                background-size: cover;
+                              " class="" />
+                          </div>
+                        </div>
+
+
+                        <ng-container formArrayName="choix">
+                          
+                          <div  style="max-height: 250px;  overflow-y: auto;"  [ngClass]="{'bg-danger': (question['controls'].choix.errors?.requireCheckboxToBeChecked && submited)}">
+                            <div *ngFor="let choix of question['controls'].choix['controls']; let j = index" class="col-12">
+                              <div class="card">
+                                <div class="p-2">
+                                  <div class="row" [formGroupName]="j">
+                                    <div class="col-12">
+                                      <div class="mb-2">
+                                        <div class="
+                                            fw-bold
+                                            d-flex
+                                            justify-content-between
+                                            align-items-center mb-2
+                                          ">
+                                        <label for="textReponse" class="form-label">
+                                          choix N° {{ j+1}}</label>
+                                          <span><button class="btn btn-dark btn-sm" type="button" title="remove Choix " (click)="removeChoix(i,j)">
+                                            X
+                                            </button></span>
+                                       
+                                        </div>
+                                       <div class="d-flex align-items-center">
+                                        <input type="text" class="form-control my-2  me-2" placeholder="choix.." formControlName="textReponse"/>
+                                       <div class="d-flex align-items-center">
+                                        <input class="form-check-input mt-0 me-1" type="checkbox" formControlName="correct" id="inlineRadio1"
+                                        value="O">
+                                    <label class="form-check-label" for="inlineRadio1">Correct</label>
+                                       </div>
+                                       </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </ng-container>
+
+
+                        <div class="modal-footer align-items-start">
+                          <button class="btn btn-dark me-2" type="button" title="Remove">
+                            <span (click)="removeQuestion(i)">Remove</span>
+                          </button>
+                          <!-- <button class="btn btn-dark me-2" type="button" title="Remove">
+                            <span (click)="openModalFiltrer(modalFiltrer, i)">choix</span>
+                          </button> -->
+                          <div class="form-group">
+                            <input type="file" accept=".png" (change)="onFileChange($event, i)"
+                              id="uploadCaptureInputFile" #imageInput style="
+                                visibility: hidden;
+                                display: none !important;
+                              " />
+                            <button class="btn btn-primary" (click)="imageInput.click()">
+                              Sélectionner une image
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <!-- <button type="button" class="btn btn-light" (click)="modal.dismiss('Cross click')">Fermer</button> -->
+          <button class="btn btn-primary" (click)="saveQcm()">
+            Enregistrer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<ng-template #noQuestions>
+  <div class="no-results"><span>Aucune Question</span></div>
+</ng-template>
+
+
+
+<button id="top" (click)="addQuestion()" title="Go to top">
+  <img src="../../../../assets/images/icons/icons plus.png" alt="" srcset="" >
+</button>
+
+
+

@@ -1,0 +1,437 @@
+
+
+<div class="row    mt-2">
+</div>
+
+<ng-container *ngIf="!isFormReady"  >
+<label   >View Elements</label>    
+
+<button type="button" class="btn btn-warning   ml-3" (click)="goToViews()">Back To Views</button>
+<button type="button" class="btn btn-success   ml-3"  (click)="newModel()"  >   <i class="fas fa-plus" ></i> Add </button>
+
+<table class="table table-hover   my-2"       >
+	<thead>
+	<tr>
+		<th scope="col" >Id</th>
+		<th scope="col" >Code</th>
+		<th scope="col" >Label</th>
+		<th scope="col" >Element Type</th>
+		<th scope="col" >Desactivation Type</th>
+		<th scope="col" >Desactivation Message</th>
+		<th scope="col" >Actions</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr *ngFor="let element of models; let ie=index"  >
+		<td >
+			{{element.id}}  
+		</td>
+		<td >
+			{{element.code}}  
+		</td>
+		<td >
+			{{element.label}}  
+		</td>
+		<td >
+      {{element.typeElement === 'A' ? 'Action' : (element.typeElement === 'V' ? 'Value' : '')}}  
+		</td>
+		<td >
+			{{element.typeDesactivation === 'S' ? 'Hide' : (element.typeDesactivation === 'D' ? 'Disable' : '')}}  
+		</td>
+		<td >
+			{{element.messageDesactivation}}  
+		</td>
+		<td >
+			<button type="button" class="btn btn-warning" (click)="loadModel(element)">Edit</button>
+			<button type="button" class="btn btn-danger d-block  d-sm-inline  ml-0 ml-sm-3   mt-2  mt-sm-0" (click)="onRemoveElementView(element.id)">Delete</button>
+		</td>
+	</tr>
+	</tbody>
+</table>
+
+
+
+</ng-container>
+	
+	
+	
+	
+
+<form [formGroup]="editElementForm" (ngSubmit)="onSubmit()" *ngIf="isFormReady"   >
+	<div class="form-row">
+		<div class="col-12">
+			<button type="submit" class="btn btn-success"  >   <i class="mdi mdi-content-save"></i> Save </button>
+ 		    <button type="button" class="btn btn-warning ml-1" (click)="onCancel()">Cancel</button>
+			<hr />
+		</div>
+	</div>
+	
+	
+	<h4>Edit Element</h4>
+	
+	<div class="form-row">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="code">code</label>
+            <input type="text" id="code" formControlName="code" class="form-control">
+          </div>
+          <div *ngIf="code.invalid &&  submitted" class="alert alert-danger">
+            <div *ngIf="code.errors.required">
+              code is empty. Please enter a value.
+            </div>
+            <div *ngIf="code.errors.maxlength">
+              code cannot be more than 50 characters.
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="form-row">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="label">label</label>
+            <input type="text" id="label" formControlName="label" class="form-control">
+          </div>
+          <div *ngIf="label.invalid &&  submitted" class="alert alert-danger">
+            <div *ngIf="label.errors.required">
+              label is empty. Please enter a value.
+            </div>
+            <div *ngIf="label.errors.maxlength">
+              label cannot be more than 100 characters.
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="form-row">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="typeElement">typeElement</label>
+            <select id="typeElement" formControlName="typeElement" class="form-control">
+              <option [ngValue]="null">Sélectionner</option>
+              <option value="A">Action</option>
+              <option value="V">Value</option>
+            </select> 
+          </div>
+          <div *ngIf="typeElement.invalid &&  submitted" class="alert alert-danger">
+            <div *ngIf="typeElement.errors.required">
+              typeElement is empty. Please enter a typeElement.
+            </div>
+            <div *ngIf="typeElement.errors.maxlength">
+              typeElement cannot be more than 1 characters.
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="form-row"   *ngIf="typeElement.value === 'A'"  >
+        <div class="col-12">
+          <div class="form-group">
+            <label for="typeDesactivation">typeDesactivation</label>
+            <select id="typeDesactivation" formControlName="typeDesactivation" class="form-control">
+              <option [ngValue]="null">Sélectionner</option>
+              <option value="S">Hide</option>
+              <option value="D">Disable</option>
+            </select>   
+          </div>
+          <div *ngIf="typeDesactivation.invalid &&  submitted" class="alert alert-danger">
+            <div *ngIf="typeDesactivation.errors.maxlength">
+              typeDesactivation cannot be more than 1 characters.
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="form-row"   *ngIf="typeElement.value === 'A'"  >
+        <div class="col-12">
+          <div class="form-group">
+            <label for="messageDesactivation">messageDesactivation</label>
+            <input type="text" id="messageDesactivation" formControlName="messageDesactivation" class="form-control">
+          </div>
+          <div *ngIf="messageDesactivation.invalid &&  submitted" class="alert alert-danger">
+            <div *ngIf="messageDesactivation.errors.maxlength">
+              messageDesactivation cannot be more than 255 characters.
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      
+      
+  
+  
+  <div class="form-row"    *ngIf="typeElement.value === 'V'"   >
+    <div class="col-12">
+      <div class="form-group">
+        <label for="valueDatatype">valueDatatype</label>
+        <select id="valueDatatype" formControlName="valueDatatype" class="form-control">
+          <option [ngValue]="null">Sélectionner</option>
+          <option value="D">Decimal</option>
+          <option value="I">Integer</option>
+          <option value="S">Text</option>
+        </select>
+      </div>
+      <div *ngIf="valueDatatype.invalid &&  submitted" class="alert alert-danger">
+        <div *ngIf="valueDatatype.errors.maxlength">
+          valueDatatype cannot be more than 1 characters.
+        </div>
+      </div>
+    </div>
+  </div>
+	
+	
+    <ng-container   *ngIf="typeElement.value === 'A'"  >
+
+      
+      <br />
+      <hr />
+      <h5>Habilitations</h5>
+
+    <table class="table table-hover   my-2"     formArrayName="habilitations"   >
+      <thead>
+        <tr>
+          <th scope="col"  style="width: 50px;">Selection</th>
+          <th scope="col" class="d-none d-md-table-cell">id</th>
+        <th scope="col" class="d-none d-md-table-cell">Label</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of editElementForm.get('habilitations')['controls']; let ih=index"  [formGroupName]="ih"  >
+        <td class="d-none d-md-table-cell"  >
+          <input  type="checkbox" formControlName="checked"   #cb  >
+        </td>
+        
+        <td class="d-none d-md-table-cell"    [ngClass]="{'table-success': cb.checked}" >
+          <input  type="text"  formControlName="id" class="form-control">
+        </td>
+        
+        <td class="d-none d-md-table-cell"    [ngClass]="{'table-success': cb.checked}" >
+          <input  type="text"  formControlName="label" class="form-control">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+	
+  <br />
+  <hr />
+  <h5>Roles</h5>
+  
+  <table class="table table-hover   my-2"     formArrayName="roles"   >
+    <thead>
+      <tr>
+        <th scope="col"  style="width: 50px;">Selection</th>
+        <th scope="col" class="d-none d-md-table-cell">id</th>
+        <th scope="col" class="d-none d-md-table-cell">Label</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of editElementForm.get('roles')['controls']; let ir=index"  [formGroupName]="ir"  >
+        <td class="d-none d-md-table-cell"  >
+          <input  type="checkbox" formControlName="checked"   #cb  >
+        </td>
+        
+        <td class="d-none d-md-table-cell"    [ngClass]="{'table-success': cb.checked}" >
+          <input  type="text"  formControlName="id" class="form-control">
+        </td>
+        
+        <td class="d-none d-md-table-cell"    [ngClass]="{'table-success': cb.checked}" >
+          <input  type="text"  formControlName="label" class="form-control">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</ng-container>
+  
+
+
+
+  
+	
+	
+<ng-container   *ngIf="typeElement.value === 'V'"  >
+  <br />
+  <hr />
+  <h5>Règles de valeur<button type="button" class="btn btn-success   ml-3"  (click)="newRegle(modalRegle)"  >   <i class="fas fa-plus" ></i> Add </button></h5>
+
+  <table class="table table-hover   my-2"       >
+    <thead>
+      <tr>
+        <th scope="col" >Habilitation</th>
+        <th scope="col" >Default Value</th>
+        <th scope="col" >Locked</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let regle of model.reglesValues; let ir=index"    >
+        
+        <td >
+          {{regle.habilitation ? regle.habilitation.label : (regle.role ? regle.role.label : '???') }}
+        </td>
+        
+        <td >
+          {{regle.valueDefault}}
+        </td>
+        
+        <td >
+          {{regle.lockedValue === 'O' ? 'Yes' : 'No'}}
+        </td>
+        
+        <td >
+          <button type="button" class="btn btn-warning " (click)="loadRegle(modalRegle, regle)">Edit</button>
+			    <button type="button" class="btn btn-danger   d-block  d-lg-inline  ml-0 ml-lg-3   mt-2  mt-lg-0" (click)="onRemoveRegleByIndex(ir)" >Delete</button>
+			
+        </td>
+        
+      </tr>
+    </tbody>
+  </table>
+
+</ng-container>
+  
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ng-template #modalRegle  let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-title">Edit RegleValueView</h4>
+      <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      
+
+
+<form  [formGroup]="editRegleForm" (ngSubmit)="onSubmitRegle(modalRegle)" *ngIf="isSubFormReady"   class="my-2"    >
+	
+	
+	<div class="form-row">
+		<div class="col-md-12">
+			<div class="form-group">
+				<label for="habilitation">habilitation</label>
+				<select id="habilitation" name="habilitation" formControlName="habilitation"  class="form-control"   [compareWith]="compareFn">
+					<option [ngValue]="null"></option>
+					<option [ngValue]="hab"  *ngFor="let hab of habilitations; let ih=index" >{{hab.label}}</option> 
+				</select>
+			</div>
+			<div *ngIf="habilitation.invalid &&  submittedRegleForm" class="alert alert-danger">
+			</div>
+		</div>
+	</div>
+  
+	
+	
+	<div class="form-row">
+		<div class="col-md-12">
+			<div class="form-group">
+				<label for="role">role</label>
+				<select id="role" name="role" formControlName="role"  class="form-control"   [compareWith]="compareFn">
+					<option [ngValue]="null"></option>
+					<option [ngValue]="role"  *ngFor="let role of roles; let ir=index" >{{role.label}}</option> 
+				</select>
+			</div>
+			<div *ngIf="role.invalid &&  submittedRegleForm" class="alert alert-danger">
+				<div *ngIf="role.errors.required">
+					role is empty. Please choose a value.
+				</div>
+			</div>
+		</div>
+	</div>
+  
+  <div class="form-row">
+    <div class="col-12">
+      <div class="form-group">
+        <label for="valueDefault">valueDefault</label>
+        <input type="text" id="valueDefault" formControlName="valueDefault" class="form-control">
+      </div>
+      <div *ngIf="valueDefault.invalid &&  submittedRegleForm" class="alert alert-danger">
+        <div *ngIf="valueDefault.errors.maxlength">
+          valueDefault cannot be more than 255 characters.
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="form-row">
+    <div class="col-12">
+      <div class="form-group">
+        <label for="minNumberValue">minNumberValue</label>
+        <input type="number" id="minNumberValue" formControlName="minNumberValue" class="form-control">
+      </div>
+      <div *ngIf="minNumberValue.invalid &&  submittedRegleForm" class="alert alert-danger">
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="form-row">
+    <div class="col-12">
+      <div class="form-group">
+        <label for="maxNumberValue">maxNumberValue</label>
+        <input type="number" id="maxNumberValue" formControlName="maxNumberValue" class="form-control">
+      </div>
+      <div *ngIf="maxNumberValue.invalid &&  submittedRegleForm" class="alert alert-danger">
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="form-row">
+    <div class="col-12">
+      <div class="form-group">
+        <label for="">lockedValue</label>
+        <div class="form-check form-check-inline ml-3">
+          <input class="form-check-input" type="radio" formControlName="lockedValue" id="lockedValue1" value="O">
+          <label class="form-check-label" for="lockedValue1">Oui</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" formControlName="lockedValue" id="lockedValue2" value="N">
+          <label class="form-check-label" for="lockedValue2">Non</label>
+        </div>
+      </div>
+      <div *ngIf="lockedValue.invalid &&  submittedRegleForm" class="alert alert-danger">
+        <div *ngIf="lockedValue.errors.maxlength">
+          lockedValue cannot be more than 1 characters.
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+</form>
+
+
+
+      
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success"    (click)="onSubmitRegle(modal)"   >   <i class="mdi mdi-content-save"></i> Save </button>
+      <button type="button" class="btn btn-warning ml-1" (click)="modal.dismiss('Cancel'); onCancelRegle()">Cancel</button>
+    </div>
+</ng-template>

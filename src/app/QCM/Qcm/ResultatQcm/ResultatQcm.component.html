@@ -1,0 +1,136 @@
+<form [formGroup]="fg">
+  <div class="card demandcard topcard mb-3">
+    <div class="card-header fw-bold">
+      <h2>Resultat candidat {{this.nom}}</h2>
+      <div class="d-flex flex-wrap  justify-content-end">
+
+        <h2 *ngIf="isReady">La Note: {{this.note.toFixed(2)}}/{{resultat.length}}</h2>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+      </div>
+      <div class="row">
+
+        <div class="card demandcard topcard mb-3 px-0">
+          <div class="
+                card-header
+                fw-bold
+                d-flex
+                justify-content-between
+                align-items-center
+              ">
+            <span>Questions</span>
+
+          </div>
+          <div class="card-body">
+            <div class="row">
+
+
+              <ng-container formArrayName="questions">
+                <div *ngFor="let question of fg['controls'].questions['controls']; let i = index" class="col-6">
+                  <div class="card" [ngClass]="{'no_image_heigth': !(fg.get('questions').value[i].image)}">
+                    <div class="p-2">
+                      <div class="row" [formGroupName]="i">
+                        <div class="
+                          fw-bold
+                          d-flex
+                          justify-content-between
+                          align-items-center 
+                        ">
+                          <span>Questions N° {{ i+1 }}</span>
+
+                        </div>
+
+                        <div class="col">
+                          <div *ngIf="fg.get('questions').value[i].image" class="mb-3">
+                            <img [src]="fg.get('questions').value[i].image" style="
+                              max-height: 200px;
+                              width: 100%;
+                              background-size: cover;
+                            " class="" />
+                          </div>
+                        </div>
+                        <div class="col-12">
+                          <div class="mb-1">
+                            <label for="time" class="form-label">Time</label>
+                            <input  type="number" class="form-control" placeholder="time" formControlName="time" #time />
+                          </div>
+                        </div>
+
+                        <div class="col-12">
+                          <div class="mb-3">
+                            <label for="textQuestion" class="form-label">
+                              Question</label>
+                            <input type="text" class="form-control" placeholder="la Question"
+                              formControlName="textQuestion" />
+                          </div>
+                        </div>
+
+
+
+                        <ng-container formArrayName="choix">
+
+                          <div [ngClass]="{
+                              'choix_height_no_image': !(fg.get('questions').value[i].image),
+                              'choix_height_image': !!(fg.get('questions').value[i].image)}">
+                            <div *ngFor="let choix of question['controls'].choix['controls']; let j = index"
+                              class="col-12">
+                              <div class="card" [ngClass]="{
+                                    'red_color': (fg.get('questions').value[i].choix[j].correct != fg.get('questions').value[i].choix[j].choisi ),
+                                    'green_color':(fg.get('questions').value[i].choix[j].correct == fg.get('questions').value[i].choix[j].choisi)
+                            }">
+                                <div class="p-2">
+                                  <div class="row" [formGroupName]="j">
+                                    <div class="col-12">
+                                      <div class="mb-2">
+                                        <div class="
+                                              fw-bold
+                                              d-flex
+                                              justify-content-between
+                                              align-items-center mb-2
+                                            ">
+                                          <label for="textReponse" class="form-label">choix N° {{ j+1}}</label>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                          <input type="text" class="form-control me-2" placeholder="choix.."
+                                            formControlName="textReponse" />
+                                          <div class="d-flex align-items-center">
+                                            <input class="form-check-input mt-0 me-1" type="checkbox"
+                                              formControlName="correct" id="inlineRadio1" value="O">
+                                            <label class="form-check-label me-2" for="inlineRadio1">Correct</label>
+
+                                            <input class="form-check-input mt-0 me-1" type="checkbox"
+                                              formControlName="choisi" id="inlineRadio2" value="O">
+                                            <label class="form-check-label" for="inlineRadio1">choisi</label>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </ng-container>
+
+
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</form>
+
+<ng-template #noQuestions>
+  <div class="no-results"><span>Aucune Question</span></div>
+</ng-template>

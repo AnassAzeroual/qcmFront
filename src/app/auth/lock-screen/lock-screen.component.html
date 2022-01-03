@@ -1,0 +1,149 @@
+
+
+    <div class="row">
+
+        <div class="col-lg-6 left-homelanding px-0">
+
+
+          <div class="left-homelandingcont  h-100 d-flex flex-column align-content-between">
+
+            <div class="left-homelandingcontup bg-white position-relative px-3 px-md-4 py-4 p-md-5 p-lg-4  ">
+              <div class="blurred-img d-none d-lg-block"></div>
+                <h3 class="display-4 position-relative" style="z-index:1; max-width: 520px;">Concrétisez vos plus belles idées, sans effort inutile.</h3>
+
+
+                <div class="left-homelandingcontdown bg-white d-block d-lg-none pt-4  pt-md-5 pt-lg-4" >
+
+                  <div class="left-homelandingcontdown-body lead mx-auto" style="max-width: 520px;">
+                    <p class="position-relative ">Des petites tâches aux grandes initiatives, Asana aide les équipes à organiser leur travail de façon à savoir quoi faire, pourquoi et comment.</p>
+    
+    
+               
+                  </div>
+    
+                </div>
+     
+            </div>
+            
+
+          
+
+
+            <div class="left-homelandingcontdown bg-white d-none d-lg-grid p-md-5 p-lg-4" style="min-height: 50%;display: grid; place-items: center;">
+
+              <div class="left-homelandingcontdown-body mx-auto lead pt-" style="max-width: 520px;">
+                <p class="mb-4 position-relative ">iPharm aide les équipes à organiser votre  travail de façon à savoir quoi faire, pourquoi et comment.</p>
+
+
+              <a href="#" class="btn btn-warning text-white py-2 px-3 mb-3">S'inscrire</a>
+              </div>
+
+            </div>
+
+         
+
+
+          </div>
+
+
+        </div>
+
+
+
+
+
+        <div class="col-lg-6 d-flex flex-column justify-content-center" style="background-color: #F3F3F3;">
+
+          
+          <div class="loginform d-block overflow-hidden">
+            
+        <div class="formcard position-relative my-4 my-lg-0 mx-2">
+          <div class="loginformbg d-none d-md-block"></div>
+          <div class="card position-relative my-4 my-lg-0" style="z-index: 1;">
+          
+            <!-- Logo -->
+            <div class="card-header py-3 text-center bg-primary">
+              <a routerLink="/">
+                <span><img src="../../../../../assets/images/logo-dark.svg" alt="" height="28"></span>
+              </a>
+            </div>
+  
+            <div class="card-body p-4">
+
+              <div class="text-center w-75 m-auto">
+                  <img src="assets/images/users/avatar-1.jpg" height="64" alt="user-image"
+                      class="rounded-circle shadow">
+                  <h4 class="text-dark-50 text-center mt-3 fw-bold">Salut ! Michael</h4>
+                  <p class="text-muted mb-4">Entrez votre mot de passe pour accéder à l'administrateur.</p>
+              </div>
+
+              <form name="lock-screen-form" [formGroup]="lockScreenForm" (ngSubmit)="onSubmit()">
+
+
+                <div class="mb-3">
+
+                    <label for="password" class="form-label">Mot de passe</label>
+                    <div class="input-group input-group-merge">
+                        <input [type]="showPassword? 'text' : 'password'" id="password" class="form-control"
+                            placeholder="Tapez votre mot de passe" formControlName="password" required
+                            minlength="4"
+                            [ngClass]="{'is-invalid': formSubmitted && formValues.password.invalid}">
+                        <div class="input-group-text" (click)="showPassword=!showPassword">
+                            <span class="password-eye"></span>
+                        </div>
+                        <div *ngIf="formSubmitted && formValues.password.invalid" class="invalid-feedback">
+
+                            <div *ngIf="formValues.password.errors?.required">
+                                Mot de passe requis.
+                            </div>
+                            <div *ngIf="formValues.password.errors?.minlength">
+                                La longueur du mot de passe doit être supérieure à 3.
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                  <div class="mb-0 text-center">
+                      <button class="btn btn-primary" type="submit">Connectez-vous</button>
+                  </div>
+              </form>
+
+          </div> <!-- end card-body-->
+      </div>
+      <!-- end card-->
+
+      <div class="row mt-3">
+          <div class="col-12 text-center position-relative">
+              <p class="text-muted">Pas vous? revenir <a [routerLink]="['../login']"
+                      class="text-muted ms-1"><b>S'identifier</b></a></p>
+          </div> <!-- end col -->
+      </div>
+      <!-- end row -->
+          </div>
+
+
+
+
+
+
+        </div>
+
+
+        
+
+
+    </div>
+
+
+
+
+
+
+<footer class="footer footer-alt">
+  2021 © Ipharm - ipharm.com
+</footer>
+

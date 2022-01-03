@@ -1,0 +1,72 @@
+<div class="row justify-content-between   my-2"    *ngIf="oneNotification">
+	<div class="col-auto">
+		<button type="button" class="btn btn-primary ml-1" (click)="onBack()">Back</button>
+	</div>
+	<div class="col-auto">
+		<button type="button" class="btn btn-secondary" (click)="onNextNotification()"><i class="fas fa-arrow-up"></i>  Up</button>
+		<button type="button" class="btn btn-secondary ml-3" (click)="onPreviousNotification()"><i class="fas fa-arrow-down"></i>  Down</button>
+		<hr />
+	</div>
+</div>
+
+
+
+<div class="row   my-2"    *ngIf="!oneNotification">
+	<div class="col-md-12">
+		<div ngbDropdown class="d-inline-block">
+				<button class="btn btn-outline-primary" id="dropdownActions" ngbDropdownToggle>Actions</button>
+				<div ngbDropdownMenu aria-labelledby="dropdownActions">
+					<button ngbDropdownItem   (click)="onMarkNotifsAsRead()">Mark as read</button>
+					<button ngbDropdownItem   (click)="onMarkNotifsAsUnread()">Mark as unread</button>
+					<button ngbDropdownItem   (click)="onDeleteNotifs()">Delete</button>
+				</div>
+		</div>
+	</div>
+</div>
+
+<table class="table table-hover   my-2"    *ngIf="!oneNotification"  >
+  <thead>
+  <tr>
+    <th scope="col"  style="width: 50px;">  <input  type="checkbox"   (change)="changeAllSelectNotif($event)" >  </th>
+    <th scope="col">#</th>
+    <th scope="col" >Type</th>
+    <th scope="col" >Date/Time</th>
+    <th scope="col" >Subject</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let notif of notifs?.content; let in=index"  >
+    <td>     <input  type="checkbox"     [(ngModel)]="selected[in]"   #cb >     </td>
+    <th scope="row"    [ngClass]="{'table-active': cb.checked}" >{{ notifs?.size * notifs?.number  + in+1 }}</th>
+    <td  [routerLink]="'/notifications/'+notif.idhash"  style="cursor: pointer;"   [ngClass]="{'font-weight-bold': !notif.read,  'table-active': cb.checked}"   >{{ notif.notificationType?.labelEn }}</td>
+    <td  [routerLink]="'/notifications/'+notif.idhash"  style="cursor: pointer;"   [ngClass]="{'font-weight-bold': !notif.read,  'table-active': cb.checked}"   >{{ notif.creationDate }}</td>
+    <td  [routerLink]="'/notifications/'+notif.idhash"  style="cursor: pointer;"   [ngClass]="{'font-weight-bold': !notif.read,  'table-active': cb.checked}"   >{{ notif.subject }}</td>
+  </tr>
+  </tbody>
+</table>
+
+
+
+<div class="row justify-content-around   mt-5"    *ngIf="!oneNotification">
+	<div class="col-auto">
+		<ngb-pagination
+			[page]="notifs?.number + 1"
+			[pageSize]="notifs?.size"
+			[collectionSize]="notifs?.totalElements"
+			[maxSize]="10"
+			(pageChange)="loadValues($event)"
+			>
+		
+		</ngb-pagination>
+	</div>
+</div>
+
+
+
+<div class="row   my-2"    *ngIf="oneNotification">
+	<div class="col-md-12">
+		{{oneNotification.subject}}
+		<hr />
+		<div [innerHTML]="oneNotification.message"></div>
+	</div>
+</div>

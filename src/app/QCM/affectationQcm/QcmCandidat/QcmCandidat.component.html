@@ -1,0 +1,145 @@
+<div>
+  <!-- start page title -->
+  <div class="row rowline mb-2">
+    <div class="col-12">
+      <div class="page-title-box">
+        <div class="page-title-top w-100 d-flex justify-content-between align-items-center mt-0">
+          <h4 class="page-title">  List Qcm Par Candidat</h4>
+          <div class="d-flex flex-wrap col-12 col-xl-9 mb-3 mb-xl-0 justify-content-end ">
+
+          <!-- <button type="button" class="btn btn-primary me-2" (click)="gotoCandidat()"><i class="uil-plus mr-1"></i>
+            Nouveau Candidat</button> -->
+          <button class="btn btn-dark " type="button" title="Filtrer" (click)="openModalFiltrer(modalFiltrer)">
+            <i class="mdi mdi-filter"></i> </button>
+          <!-- <hr /> -->
+        </div>
+      </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- end page title -->
+
+
+  <div class="card demandcard topcard mb-3">
+    <!-- <div class="card-header text-bold h5 m-0">Qcm par Candidat</div> -->
+    <div class="card-body py-0">
+      <div>
+
+        <kendo-grid [data]="creancesGrid" [pageSize]="pageSize" [skip]="skip" [pageable]="true"
+          (pageChange)="pageChange($event)" class="page-grid-container" [resizable]="true" [reorderable]="true"
+          [sortable]="{ mode: 'single' }" (selectionChange)="selectedRow($event)">
+          <kendo-grid-column title="Actions" class="text-center" [width]="60">
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+               <button [disabled]="!dataItem.note" title="Resultat Qcm" (click)="showResultatQcm(dataItem)" kendoButton class="mdi mdi-square-edit-outline btn btn-primary m-1"></button>
+              <!--<button (click)="affecteQcm(dataItem)" kendoButton class="mdi mdi-format-color-highlight"></button> -->
+              <button  [disabled]="dataItem.note" title="Envoi Mail" (click)="envoiMail(dataItem)" kendoButton class="mdi mdi-email-mark-as-unread btn btn-primary m-1"></button>
+
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="nom" title="Nom" [width]="60">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div> {{dataItem.candidat.nom}} </div>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="prenom" title="Prenom" [width]="50">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div> {{dataItem.candidat.prenom}} </div>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="mail" title="Email" [width]="150">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div> {{dataItem.candidat.mail}} </div>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="ville" title="Ville" [width]="50">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div> {{dataItem.candidat.ville}} </div>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="adresse" title="Adresse" [width]="90">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div> {{dataItem.candidat.adresse}} </div>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="candidat.tel" title="tel" [width]="80">
+          </kendo-grid-column>
+
+          <kendo-grid-column field="societe" title="Societe" [width]="60">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div> {{dataItem.candidat.societe.nom}} </div>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="qcm" title="qcm" [width]="70">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div> {{dataItem.qcm.libelle}} </div>
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column  field="note" title="note" [width]="55">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div *ngIf="!dataItem.note" > Pas encore passé </div>
+
+              <div *ngIf="dataItem.note"> {{dataItem.note.toFixed(2)}}/{{dataItem.qcm.questions.length}} </div>
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column  field="tricher" title="tricher" [width]="55">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div *ngIf="!dataItem.tricher"> Non </div>
+              <div *ngIf="dataItem.tricher"> Oui </div>
+            </ng-template>
+          </kendo-grid-column>
+
+        </kendo-grid>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<ng-template #modalFiltrer let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Recherche Par QCM / Candidat</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    </button>
+  </div>
+
+  <form [formGroup]="fg">
+    <div class="card demandcard topcard mb-3">
+
+      <div class="card-body">
+        <div class="row">
+          
+          <div class="col-md-4">
+            <div class="mb-3">
+              <label for="qcm" class="form-label">Qcm</label>
+              <input type="text" id="iptEditCmd" class="form-control" placeholder="qcm libelle" [ngbTypeahead]="search"
+                (selectItem)="selectedQcm($event)" [resultFormatter]="formatter" [inputFormatter]="formatter"
+                appTypeaheadScrollFix formControlName="qcm" />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="mb-3">
+              <label for="candidat" class="form-label">Candidat</label>
+              <input type="text" id="iptEditCmd1" class="form-control" placeholder="candidat nom" [ngbTypeahead]="searchcandidat"
+                (selectItem)="selectedCandidat($event)" [resultFormatter]="formatterCandidat" [inputFormatter]="formatterCandidat"
+                appTypeaheadScrollFix formControlName="candidat" />
+            </div>
+          </div>
+
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" (click)="modal.dismiss('Cross click')">Fermer</button>
+          <button type="button" class="btn btn-primary" (click)="submit()">Filtrer</button>
+        </div>
+      </div>
+    </div>
+    </div>
+  </form>
+</ng-template>
+
